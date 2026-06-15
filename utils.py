@@ -36,7 +36,7 @@ def predict(x, i,model):
 # this function extracts the jacobian of the NN at point x
 @tf.function
 def extract_gradients(x_input, model):
-    x = tf.cast(tf.reshape(x_input, (1, latent_size)), dtype=tf.float32)
+    x = tf.expand_dims(x_input, axis=0)
     with tf.GradientTape() as tape:
         tape.watch(x)       
         y = model(x, training=False)
