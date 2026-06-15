@@ -15,6 +15,9 @@ latent_size=20 # dimension for latent space
 # this function takes a vector and a matrix and returns a vector
 # perpendicular to the columns of the matrix
 def orthogonalize_vector(v, J):
+    v = np.asarray(v, dtype=np.float32)
+    J = np.asarray(J, dtype=np.float32)
+    
     A = J.copy().astype(np.float32)
     Q = []
 
