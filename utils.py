@@ -14,13 +14,30 @@ latent_size=20 # dimension for latent space
 
 # this function takes a vector and a matrix and returns a vector
 # perpendicular to the columns of the matrix
-def orthogonalize_vector(v,M):
-    
-    if len(v) != M.shape[1]:
-        raise ValueError( f"Vector length ({len(v)}) must equal the number of columns of M ({M.shape[1]}).")
+def orthogonalize_vector(v, J):
+    A = J.copy().astype(np.float32)
+    Q = []
 
-    Q, R = np.linalg.qr(M.T)
-    v_perp = v - Q @ (Q.T @ v)
+    for i in range(A.shape[0]):
+        qi = A[i]
+
+        for q in Q:
+            qi = qi - np.dot(q, qi) * q
+
+        norm = np.linalg.norm(qi)
+        if norm > 1e-8:
+            Q.append(qi / norm)
+
+    Q = np.array(Q)  # (k, 784)
+
+    if len(Q) == 0:
+        return v
+        
+    proj = np.zeros_like(v)
+    for q in Q:
+        proj += np.dot(q, v) * q
+
+    v_perp = v - proj
 
     return v_perp
 
