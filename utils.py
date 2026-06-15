@@ -14,20 +14,31 @@ latent_size=20 # dimension for latent space
 
 # this function takes a vector and a matrix and returns a vector
 # perpendicular to the columns of the matrix
-def orthogonalize_vector(v, J):
-    V = np.array(V, dtype=float)
-    n, k = V.shape
-    Q = np.zeros((n, k))
+def orthogonalize_vector(v, J, tol=1e-10):
+    v = np.asarray(v, dtype=np.float64)
+    J = np.asarray(J, dtype=np.float64)
+    M = J.T  # shape (n, k)
+    n, k = M.shape
+    Q_cols = []
 
     for i in range(k):
-        q = V[:, i].copy()
-        for j in range(i):
-            q -= (Q[:, j] @ V[:, i]) * Q[:, j]  # remove projection onto previous q's
+        q = M[:, i].copy()
+        for q_prev in Q_cols:
+            q -= (q_prev @ M[:, i]) * q_prev
         norm = np.linalg.norm(q)
-        if norm < 1e-10:
-            raise ValueError(f"Column {i} is linearly dependent on previous columns")
-        Q[:, i] = q / norm
-    return Q
+        if norm > tol:
+            Q_cols.append(q / norm)
+
+    # --- Remove projection of v onto each basis vector ---
+    v_orth = v.copy()
+    for q in Q_cols:
+        v_orth -= (q @ v) * q
+
+    norm = np.linalg.norm(v_orth)
+    if norm < tol:
+        return v
+
+    return (v_orth / norm).astype(np.float32)
     
 # this function predicts the probability of the i^th output and the most probable output at point x
 def predict(x, i,model):
