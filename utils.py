@@ -19,7 +19,7 @@ def orthogonalize_vector(v,M):
     if len(v) != M.shape[1]:
         raise ValueError( f"Vector length ({len(v)}) must equal the number of columns of M ({M.shape[1]}).")
 
-    Q, R = np.linalg.qr(M)
+    Q, R = np.linalg.qr(M.T)
     v_perp = v - Q @ (Q.T @ v)
 
     return v_perp
