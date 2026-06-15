@@ -27,9 +27,9 @@ def orthogonalize_vector(v,M):
 # this function predicts the probability of the i^th output and the most probable output at point x
 def predict(x, i,model):
     x = tf.expand_dims(x, axis=0)
-    p_tot = model(x_0).numpy()[0] # all probabilities at x_0
-    prob = model(x_0).numpy()[0, i] # p_i at x_0
-    pred = model(x_0).numpy()[0].argmax() # p_max at x_0
+    p_tot = model(x).numpy()[0] # all probabilities at x_0
+    prob = model(x).numpy()[0, i] # p_i at x_0
+    pred = model(x).numpy()[0].argmax() # p_max at x_0
     return prob, pred, p_tot
 
 # this function extracts the jacobian of the NN at point x
