@@ -28,8 +28,7 @@ def orthogonalize_vector(v, J, tol=1e-30):
         norm = np.linalg.norm(q)
         if norm > tol:
             Q_cols.append(q / norm)
-
-    # --- Remove projection of v onto each basis vector ---
+            
     v_orth = v.copy()
     for q in Q_cols:
         v_orth -= (q @ v) * q
