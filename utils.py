@@ -103,29 +103,32 @@ def compute_rank(J_i):
   return rank,s,cond
 
 # this functions plots all the singular values of the Jacobian and the probabilities
-def handling_SV_and_Probabilities(SV,P):
-    
+def handling_SV_and_Probabilities(SV, P):
     # SV plot
     plt.figure(figsize=(10, 6))
 
     n_steps = len(SV)
     n_vals = len(SV[0])
-
-    for i, s in enumerate(SV):
-        plt.scatter(np.full(len(s), i), s, s=10)
-
+    max_sv = np.max(SV)
+    min_sv = np.min(SV)
+    
     for j in range(n_vals):
-      plt.plot(
-          range(n_steps),
-          [SV[i][j] for i in range(n_steps)],
-          linewidth=1
-      )
+        sv_path = [SV[i][j] for i in range(n_steps)]
+        plt.plot(
+            range(n_steps),
+            sv_path,
+            marker='o',       
+            markersize=3,     
+            linewidth=1,      
+            label=f"SV {j}"   
+        )
+
     plt.yscale('log')
     plt.title("SV-steps")
     plt.xlabel("Steps")
     plt.ylabel("Singular Values (log)")
     plt.xticks(range(0, n_steps, max(1, n_steps // 20)))
-    plt.yticks()
+    plt.ylim(bottom=min_sv * 0.5, top=max_sv * 2.0)
     plt.tight_layout()
     plt.show()
 
@@ -142,13 +145,14 @@ def handling_SV_and_Probabilities(SV,P):
             linewidth=2,
             label=f"p[{j}]"
         )
+        
     plt.yscale('log')
     plt.title("P-steps")
     plt.xlabel("Steps")
     plt.ylabel("Probabilities (log)")
     plt.xticks(range(0, n_steps, max(1, n_steps // 20)))
-    plt.ylim(0, 1)
-    plt.legend() 
+    plt.ylim(top=1.5) 
+    
+    plt.legend()
     plt.tight_layout()
     plt.show()
-
