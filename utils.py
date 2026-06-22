@@ -49,8 +49,8 @@ def predict(x, i,model):
 
 # this function extracts the jacobian of the NN at point x
 @tf.function
-def extract_gradients(x_input, model):
-    x = tf.expand_dims(x_input, axis=0)
+def extract_gradients(x, model):
+    x = tf.expand_dims(x, axis=0)
     with tf.GradientTape() as tape:
         tape.watch(x)       
         y = model(x, training=False)
@@ -66,9 +66,9 @@ def normalize(J):
     return J/norm
 
 # this function gets all data at x_0
-def get_data_at_point(x_0,i,model_log,model_soft):
-    p,pred,p_tot=predict(x_0,i,model_soft)
-    J = extract_gradients(x_0,model_log)
+def get_data_at_point(x,i,model_log,model_soft):
+    p,pred,p_tot=predict(x,i,model_soft)
+    J = extract_gradients(x,model_log)
     J_i = J[i, :].numpy()
     norm=np.linalg.norm(J_i)
     return norm,p,pred,J_i,J,p_tot
