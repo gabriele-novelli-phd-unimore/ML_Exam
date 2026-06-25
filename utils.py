@@ -86,7 +86,7 @@ def handling_images(images, filename="output.png"):
     for j in range(num_images):
         plt.subplot(rows, cols, j + 1)
         plt.imshow(np.squeeze(images[j]), cmap='gray')
-        plt.title(f"{j}")
+        plt.title(f"Step {(j*2+1)*100}")
         plt.axis("off")
 
 
