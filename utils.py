@@ -74,8 +74,10 @@ def get_data_at_point(x,i,model_log,model_soft):
     return norm,p,pred,J_i,J,p_tot
 
 # function to save all images
-def handling_images(images, filename="output.png"):
+def handling_images(images, filename="output.png",P):
 
+    pred = np.argmax(P[j])   # classe predetta
+    prob = np.max(P[j])
     num_images = len(images)
     cols = 10
     rows = math.ceil(num_images / cols)
@@ -86,7 +88,7 @@ def handling_images(images, filename="output.png"):
     for j in range(num_images):
         plt.subplot(rows, cols, j + 1)
         plt.imshow(np.squeeze(images[j]), cmap='gray')
-        plt.title(f"Step {(j*2+1)*100}")
+        plt.title(f"Step {(j*2+1)*100}\n predicted {pred}\n with probability: {prob}")
         plt.axis("off")
 
 
