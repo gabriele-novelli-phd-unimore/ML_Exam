@@ -88,7 +88,7 @@ def handling_images(images,probs,preds,N, filename="output.png"):
         n=N[j]
         plt.subplot(rows, cols, j + 1)
         plt.imshow(np.squeeze(images[j]), cmap='gray')
-        plt.title(f"Step {n}\n Predicted: {preds[j]}\n With prob : {probs[j]:.3f}",fontsize=6)
+        plt.title(f"Step {n}\n Predicted: {preds[j]}\n With prob : {probs[j]:.3f}",fontsize=8)
         plt.axis("off")
 
 
