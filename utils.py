@@ -74,7 +74,7 @@ def get_data_at_point(x,i,model_log,model_soft):
     return norm,p,pred,J_i,J,p_tot
 
 # function to save all images
-def handling_images(images, filename="output.png",P):
+def handling_images(images,P, filename="output.png"):
 
     pred = np.argmax(P[j])   # classe predetta
     prob = np.max(P[j])
