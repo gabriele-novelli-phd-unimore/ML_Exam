@@ -90,7 +90,7 @@ def handling_images(images,P, filename="output.png"):
         prob = probs[j]
         plt.subplot(rows, cols, j + 1)
         plt.imshow(np.squeeze(images[j]), cmap='gray')
-        plt.title(f"Step {(j*2+1)*100}\nPred: {pred}\nProb: {prob:.3f}",fontsize=6)
+        plt.title(f"Step {(j*2+1)*100}\nPredicted {pred}\n with probability: {prob:.3f}",fontsize=6)
         plt.axis("off")
 
 
