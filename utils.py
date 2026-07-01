@@ -79,7 +79,7 @@ def handling_images(images,probs,preds,N, filename="output.png"):
     num_images = len(images)
     cols = 10
     rows = math.ceil(num_images / cols)
-    fig_height = max(10, rows * 2)
+    fig_height = rows * 3
     
     plt.figure(figsize=(20, fig_height), constrained_layout=True)
 
