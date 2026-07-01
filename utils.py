@@ -101,8 +101,7 @@ def handling_images(images,probs,preds,N, filename="output.png"):
 def compute_rank(J_i):
   rank=np.linalg.matrix_rank(J_i)
   s = np.linalg.svd(J_i, compute_uv=False)
-  cond = s[0] / s[-1]
-  return rank,s,cond
+  return rank,s
 
 # this functions plots all the singular values of the Jacobian and the probabilities
 def handling_SV_and_Probabilities(SV, P):
