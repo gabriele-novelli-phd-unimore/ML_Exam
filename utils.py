@@ -15,21 +15,23 @@ latent_size=20 # dimension for latent space
 # this function takes a vector and a matrix and returns a vector
 # perpendicular to the columns of the matrix
 def orthogonalize_vector(v, J, tol=1e-30):
+    
     v = np.asarray(v, dtype=np.float64)
     J = np.asarray(J, dtype=np.float64)
-    M = J.T  # shape (n, k)
+    M = J.T  # transpose since the matrix it will receive will be transposed
     n, k = M.shape
     Q_cols = []
 
     for i in range(k):
-        q = M[:, i].copy()
+        q = M[:, i].copy() # extract columns
         for q_prev in Q_cols:
-            q -= (q_prev @ M[:, i]) * q_prev
+            q -= (q_prev @ M[:, i]) * q_prev 
         norm = np.linalg.norm(q)
         if norm > tol:
             Q_cols.append(q / norm)
             
     v_orth = v.copy()
+    # apply G.S. algorithm
     for q in Q_cols:
         v_orth -= (q @ v) * q
 
@@ -44,7 +46,7 @@ def predict(x, i,model):
     x = tf.expand_dims(x, axis=0)
     p_tot = model(x).numpy()[0] # all probabilities at x_0
     prob = model(x).numpy()[0, i] # p_i at x_0
-    pred = model(x).numpy()[0].argmax() # p_max at x_0
+    pred = model(x).numpy()[0].argmax() # prediction at x_0
     return prob, pred, p_tot
 
 # this function extracts the jacobian of the NN at point x
